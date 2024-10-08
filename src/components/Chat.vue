@@ -120,7 +120,23 @@ const options = [
         label: 'Delete Chat',
         key: 'delete_chat'
     }
-]
+];
+
+function getAvatarLink(): string {
+    let link = "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png";
+
+    debugger;
+    if(props.chat.type_id === ChatType.Group && (props.chat as IGroupChat).avatar_url != null)
+    {
+        link = (props.chat as IGroupChat).avatar_url!;
+    }
+    else if(props.chat.type_id === ChatType.Private && (props.chat as IPrivateChat).user.avatar_url != null)
+    {
+        link = (props.chat as IPrivateChat).user.avatar_url!;
+    }
+
+    return link
+}
 
 interface Props {
     chat: IChat;
@@ -153,7 +169,7 @@ const props = defineProps<Props>();
                 <NAvatar 
                 round
                 :size="43"
-                src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"
+                :src="getAvatarLink()"
                 />
             </NGridItem>
             <NGridItem :span="4">
