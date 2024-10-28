@@ -43,7 +43,7 @@ async function onButtonLogoutClick()
             class="m-t-10px"
             round
             size="medium"
-            src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"
+            :src="store.user?.avatar_url ?? 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'"
         />
         <NButton @click="onSettingsButtonClick" :bordered="false" circle size="medium" class="m-t-auto" ghost color="#898989">
             <template #icon>

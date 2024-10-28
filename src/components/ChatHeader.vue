@@ -12,6 +12,19 @@ function onInfoButtonClick()
     store.showUserInfo = !store.showUserInfo;
 }
 
+function getAvatarLink(): string {
+    if(store.selectedChat!.type_id === ChatType.Group && (store.selectedChat as IGroupChat).avatar_url != null)
+    {
+        return (store.selectedChat as IGroupChat).avatar_url!;
+    }
+    else if(store.selectedChat!.type_id === ChatType.Private && (store.selectedChat as IPrivateChat).user.avatar_url != null)
+    {
+        return (store.selectedChat as IPrivateChat).user.avatar_url!;
+    }
+
+    return "";
+}
+
 </script>
 
 <template>
@@ -20,7 +33,7 @@ function onInfoButtonClick()
             <NAvatar 
                 round
                 :size="43"
-                src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"
+                :src="getAvatarLink()"
             />
         </NFlex>
         <NFlex>
