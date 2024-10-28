@@ -19,27 +19,30 @@ function handleClose()
 
 onBeforeMount(async ()=>{
   try {
-        const request: IRequest  = {
-            command: "GetChatInfo", 
-            data: {
-                chat_id: store.selectedChat?.chat_id,
-                user_id: store.user?.id
+        if(
+            (store.selectedChat!.type_id === ChatType.Private && 
+            ((store.selectedChat as IPrivateChat).user!.email == null || (store.selectedChat as IPrivateChat).user!.email === ""))
+        ){
+            const request: IRequest  = {
+                command: "GetChatInfo", 
+                data: {
+                    chat_id: store.selectedChat?.chat_id,
+                    user_id: store.user?.id
+                }
+            };
+
+            const respond = await handleRequest(wsService!, request);
+
+            if (respond?.errorMessage) {
+                handleError({ subject: "Sign in Error", body: respond?.errorMessage }, notification)
             }
-        };
 
-        const respond = await handleRequest(wsService!, request);
-
-        if (respond?.errorMessage) {
-            handleError({ subject: "Sign in Error", body: respond?.errorMessage }, notification)
+            console.debug("respond", respond);
+            store.selectedChat = convertToChat(store.selectedChat, convertToIChatInfo(respond?.data));
         }
-
-        console.debug("respond", respond);
-        store.selectedChat = convertToChat(store.selectedChat, convertToIChatInfo(respond?.data));
     } 
     catch (error) {
         console.error(error);
-    }
-    finally {
     }
 })
 

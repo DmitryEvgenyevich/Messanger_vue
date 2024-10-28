@@ -50,6 +50,7 @@ export function handleNotification(notification: INotification): void {
                     else {
                         chatToUpdate.unread_messages_count = 1;
                     }
+                    chatToUpdate.messages.push(notificationNewMessage.message);
                 }
             }
 
