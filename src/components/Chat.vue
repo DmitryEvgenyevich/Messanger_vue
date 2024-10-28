@@ -79,19 +79,20 @@ async function onSelectChat()
                 store.allChats.splice(index, 1);
             }
         }
+        
+        if (props.chat.messages?.length <= 0 || props.chat.messages == null){
+            const respond = await handleRequest(wsService!, request);
 
-        const respond = await handleRequest(wsService!, request);
+            if (respond?.errorMessage) {
+                handleError({ subject: "Error", body: respond?.errorMessage }, notification)
+            }
 
-        if (respond?.errorMessage) {
-            handleError({ subject: "Error", body: respond?.errorMessage }, notification)
+            console.debug("respond", respond);
+            
+            props.chat.messages = (respond?.data as unknown as any[])?.map(item => 
+                convertToIChatMessage(item)
+            );
         }
-
-        console.debug("respond", respond);
-        
-        props.chat.messages = (respond?.data as unknown as any[])?.map(item => 
-          convertToIChatMessage(item)
-        );
-        
         store.selectedChat = props.chat;
 
         if (store.selectedChat.unread_messages_count > 0){
