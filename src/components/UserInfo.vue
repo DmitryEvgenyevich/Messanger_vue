@@ -65,6 +65,19 @@ function getAvatarLink(): string {
     return "";
 }
 
+async function onUpdateMuted()
+{
+    const request: IRequest  = {
+        command: "UpdateIsMuted", 
+        data: {
+            id: store.selectedChat?.id_of_user_chat,
+            is_muted: store.selectedChat!.is_muted
+        }
+    };
+
+    handleRequest(wsService!, request, false);
+}
+
 </script>
 
 <template>
@@ -173,7 +186,7 @@ function getAvatarLink(): string {
                         <NFormItemGi :span="24" :show-feedback="false" :show-label="false">
                             <NFlex justify="space-between" class="w-full">
                                 <NText>Notifications</NText>
-                                <NSwitch v-model:value="store.selectedChat!.is_muted" size="medium"/>
+                                <NSwitch v-model:value="store.selectedChat!.is_muted" @update:value="onUpdateMuted" size="medium" />
                             </NFlex>
                         </NFormItemGi>
                     </NGrid>
