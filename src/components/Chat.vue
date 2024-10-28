@@ -123,19 +123,16 @@ const options = [
 ];
 
 function getAvatarLink(): string {
-    let link = "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png";
-
-    debugger;
     if(props.chat.type_id === ChatType.Group && (props.chat as IGroupChat).avatar_url != null)
     {
-        link = (props.chat as IGroupChat).avatar_url!;
+        return (props.chat as IGroupChat).avatar_url!;
     }
     else if(props.chat.type_id === ChatType.Private && (props.chat as IPrivateChat).user.avatar_url != null)
     {
-        link = (props.chat as IPrivateChat).user.avatar_url!;
+        return (props.chat as IPrivateChat).user.avatar_url!;
     }
-
-    return link
+    
+    return "";
 }
 
 interface Props {
